@@ -1,0 +1,252 @@
+env:
+  BUILD_TIMESTAMP: "2019-04-12_07-47-42"
+steps:
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":hammer_and_wrench: el-6-x86_64"
+    agents:
+      queue: "dev-omnibus-el-6-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        adhoc: true
+        build: "inspec"
+        config: "omnibus/omnibus.rb"
+        install-dir: "/opt/inspec"
+        omnibus-pipeline-definition-path: ".expeditor/release.omnibus.yml"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":hammer_and_wrench: el-7-x86_64"
+    agents:
+      queue: "dev-omnibus-el-7-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        adhoc: true
+        build: "inspec"
+        config: "omnibus/omnibus.rb"
+        install-dir: "/opt/inspec"
+        omnibus-pipeline-definition-path: ".expeditor/release.omnibus.yml"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":hammer_and_wrench: mac_os_x-10.12-x86_64"
+    agents:
+      queue: "default-macos-privileged"
+    plugins:
+    - chef/omnibus#master:
+        adhoc: true
+        build: "inspec"
+        config: "omnibus/omnibus.rb"
+        install-dir: "/opt/inspec"
+        omnibus-pipeline-definition-path: ".expeditor/release.omnibus.yml"
+    - chef/anka#master:
+        vm-name: "macos-omnibus-10.12"
+        wait-network: true
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":hammer_and_wrench: sles-11-x86_64"
+    agents:
+      queue: "dev-omnibus-sles-11-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        adhoc: true
+        build: "inspec"
+        config: "omnibus/omnibus.rb"
+        install-dir: "/opt/inspec"
+        omnibus-pipeline-definition-path: ".expeditor/release.omnibus.yml"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":hammer_and_wrench: sles-12-x86_64"
+    agents:
+      queue: "dev-omnibus-sles-12-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        adhoc: true
+        build: "inspec"
+        config: "omnibus/omnibus.rb"
+        install-dir: "/opt/inspec"
+        omnibus-pipeline-definition-path: ".expeditor/release.omnibus.yml"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":hammer_and_wrench: ubuntu-14.04-x86_64"
+    agents:
+      queue: "dev-omnibus-ubuntu-14.04-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        adhoc: true
+        build: "inspec"
+        config: "omnibus/omnibus.rb"
+        install-dir: "/opt/inspec"
+        omnibus-pipeline-definition-path: ".expeditor/release.omnibus.yml"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":hammer_and_wrench: windows-2012r2-x86_64"
+    agents:
+      queue: "dev-omnibus-windows-2012r2-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        adhoc: true
+        build: "inspec"
+        config: "omnibus/omnibus.rb"
+        install-dir: "C:/opscode/inspec"
+        omnibus-pipeline-definition-path: ".expeditor/release.omnibus.yml"
+  - wait
+  - label: "Create Build Record"
+    plugins:
+    - chef/omnibus#master:
+        create-build-record: "inspec"
+  - wait
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: el-6-x86_64"
+    agents:
+      queue: "dev-omnibus-el-6-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.sh"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: el-7-x86_64"
+    agents:
+      queue: "dev-omnibus-el-7-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.sh"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: mac_os_x-10.12-x86_64"
+    agents:
+      queue: "default-macos-privileged"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.sh"
+    - chef/anka#master:
+        vm-name: "macos-omnibus-10.12"
+        wait-network: true
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: mac_os_x-10.13-x86_64"
+    agents:
+      queue: "default-macos-privileged"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.sh"
+    - chef/anka#master:
+        vm-name: "macos-omnibus-10.13"
+        wait-network: true
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: mac_os_x-10.14-x86_64"
+    agents:
+      queue: "default-macos-privileged"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.sh"
+    - chef/anka#master:
+        vm-name: "macos-omnibus-10.14"
+        wait-network: true
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: sles-11-x86_64"
+    agents:
+      queue: "dev-omnibus-sles-11-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.sh"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: sles-12-x86_64"
+    agents:
+      queue: "dev-omnibus-sles-12-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.sh"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: sles-15-x86_64"
+    agents:
+      queue: "dev-omnibus-sles-15-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.sh"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: ubuntu-14.04-x86_64"
+    agents:
+      queue: "dev-omnibus-ubuntu-14.04-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.sh"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: ubuntu-16.04-x86_64"
+    agents:
+      queue: "dev-omnibus-ubuntu-16.04-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.sh"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: ubuntu-18.04-x86_64"
+    agents:
+      queue: "dev-omnibus-ubuntu-18.04-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.sh"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: windows-2012-x86_64"
+    agents:
+      queue: "dev-omnibus-windows-2012-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.ps1"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: windows-2012r2-x86_64"
+    agents:
+      queue: "dev-omnibus-windows-2012r2-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.ps1"
+  - env:
+      EXPEDITOR_SECRETS: "{}"
+      OMNIBUS_FIPS_MODE: false
+    label: ":mag: windows-2016-x86_64"
+    agents:
+      queue: "dev-omnibus-windows-2016-x86_64"
+    plugins:
+    - chef/omnibus#master:
+        test: "inspec"
+        test-path: "omnibus/omnibus-test.ps1"
